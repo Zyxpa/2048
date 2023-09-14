@@ -9,36 +9,20 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         RestartGame();
-        //GridCntrl.SpawnTile(0, 0);
-        //GridCntrl.SpawnTile(1, 1);
-        //GridCntrl.SpawnTile(2, 2);
-        //GridCntrl.SpawnTile(3, 3);
-        //GridCntrl.SpawnTile(4, 3);
-        //GridCntrl.SpawnTile(5, 2);
-        //GridCntrl.SpawnTile(6, 1);
-        //GridCntrl.SpawnTile(7, 0);
-        //GridCntrl.SpawnTile(8, 0);
-        //GridCntrl.SpawnTile(9, 1);
-        //GridCntrl.SpawnTile(10, 2);
-        //GridCntrl.SpawnTile(11, 3);
-        //GridCntrl.SpawnTile(12, 3);
-        //GridCntrl.SpawnTile(13, 2);
-        //GridCntrl.SpawnTile(14, 1);
-
     }
 
     void Update()
     {
-        if (GridCntrl.state == States.Awaite)
+        if (GridCntrl.State == States.Awaite)
         {
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-                GridCntrl.DoVerticalMove(true);
+                GridCntrl.DoMove(Vector2.up);
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-                GridCntrl.DoVerticalMove(false);
+                GridCntrl.DoMove(Vector2.down);
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-                GridCntrl.DoHorizontalMove(true);
+                GridCntrl.DoMove(Vector2.left);
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-                GridCntrl.DoHorizontalMove(false);
+                GridCntrl.DoMove(Vector2.right);
         }
     }
     public void GameOver(bool isWin)

@@ -7,7 +7,7 @@ public class TileController : MonoBehaviour
     [SerializeField] public TextMeshProUGUI TextNumber;
     [SerializeField] public Image image;
     private PanelType type;
-    public int curentNumber => type.Value;
+    public int CurentNumber => type.Value;
     public PanelType Type 
     { 
         get => type;
