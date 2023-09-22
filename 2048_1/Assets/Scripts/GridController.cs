@@ -17,13 +17,12 @@ public class GridController : MonoBehaviour
 
     [SerializeField] public TileController tilePrefub;
     [SerializeField] public GridPanelComponent[] Grid;
-    [SerializeField] private EndGameEvent onEndGame;
+    [SerializeField] public EndGameEvent onEndGame;
 
     bool CanMakeMove => CheckMove();
 
-    int countOfEmptyCell;
-    int gridDimension;
-    int countOfCell;
+    int countOfEmptyCell, gridDimension, countOfCell;
+    int winNumber;
     PanelTypes panelTypes;
     public States State;
     
@@ -45,6 +44,8 @@ public class GridController : MonoBehaviour
         for (int i = 0; i < Grid.Length; i++)
             Grid[i].cellNumber = i;
         countOfCell = Grid.Length;
+        winNumber = panelTypes.MaxValue();
+        Debug.Log(winNumber);
         OnStart();
     }
     [ContextMenu("CheckMove")]
@@ -123,8 +124,8 @@ public class GridController : MonoBehaviour
                         //слияние 
                         MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastFilledCell].gameObject, true);
                         Grid[lastFilledCell].curentTile.Type = panelTypes.GetPanel(Grid[lastFilledCell].curentTile.Type.Index + 1);
-                        if (Grid[lastFilledCell].curentTile.Type.Value == 2048) // можно спрятать в сеттер
-                            onEndGame.Invoke(true);
+                        if (Grid[lastFilledCell].curentTile.Type.Value == winNumber) 
+                            onEndGame?.Invoke(true);
                         lastEmptyCell = lastFilledCell + internalStep; 
                         continue;
                     }
@@ -187,6 +188,11 @@ public class GridController : MonoBehaviour
     {
         Grid.Where(x => !x.IsEmpty).ToList().ForEach(x => { Destroy(x.curentTile.gameObject); x.curentTile = null; });
         Debug.Log("After Clear " + Grid.Where(x => !x.IsEmpty).ToList().Count.ToString());
+    }
+
+    public void Clear( bool f)
+    {
+        Debug.Log(f);
     }
 
     [Serializable]

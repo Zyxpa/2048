@@ -5,10 +5,16 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] public GridController GridCntrl;
     [SerializeField] public GameObject GameOverPopUp;
+    [SerializeField] public GameObject WinPopUp;
 
     void Start()
     {
-        RestartGame();
+        //RestartGame();
+        GameOverPopUp.SetActive(false);
+        GridCntrl.Clear();
+        GridCntrl.OnStart();
+        GridCntrl.SpawnTile(0, 9);
+        GridCntrl.SpawnTile(1, 9);
     }
 
     void Update()
@@ -29,7 +35,8 @@ public class GameManager : MonoBehaviour
     {
         if (isWin)
         {
-            Debug.Log("GAme Over" + isWin.ToString());
+            WinPopUp.SetActive(true);
+            WinPopUp.transform.DOShakeScale((float)1, (float)0.5, 5);
         }
         else 
         {
@@ -42,6 +49,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         GameOverPopUp.SetActive(false);
+        WinPopUp.SetActive(false);
         GridCntrl.Clear();
         GridCntrl.OnStart();
         GridCntrl.SpawnTile();

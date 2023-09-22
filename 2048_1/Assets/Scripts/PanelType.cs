@@ -9,7 +9,12 @@ public class PanelTypes : ScriptableObject
     public PanelType GetPanel(int index)
     {
         return panelTypes[index];
-    } 
+    }
+
+    public int MaxValue()
+    {
+        return 2 << (panelTypes.Length-1);
+    }
 
 }
 
