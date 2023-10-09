@@ -9,12 +9,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //RestartGame();
-        GameOverPopUp.SetActive(false);
-        GridCntrl.Clear();
-        GridCntrl.OnStart();
-        GridCntrl.SpawnTile(0, 9);
-        GridCntrl.SpawnTile(1, 9);
+        RestartGame();
     }
 
     void Update()
@@ -50,8 +45,7 @@ public class GameManager : MonoBehaviour
     {
         GameOverPopUp.SetActive(false);
         WinPopUp.SetActive(false);
-        GridCntrl.Clear();
-        GridCntrl.OnStart();
+        GridCntrl.State = States.Awaite;
         GridCntrl.SpawnTile();
         GridCntrl.SpawnTile();
     }
