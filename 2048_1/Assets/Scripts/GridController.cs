@@ -123,7 +123,9 @@ public class GridController : MonoBehaviour
             internalStep = -1;
             externalStep = -gridDimension;
         }
-
+        if (internalStep == 0)
+            return;
+            
         for (int i = 0; i < gridDimension; i++, startPosition += externalStep)
         {
             int lastEmptyCell = -1;

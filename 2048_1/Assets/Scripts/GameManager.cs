@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,8 +8,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject GameOverPopUp;
     [SerializeField] public GameObject WinPopUp;
 
+    private GameInput inputActions;
+
     void Start()
     {
+        inputActions = new GameInput();
+        inputActions.Enable();
+
         RestartGame();
     }
 
@@ -16,14 +22,9 @@ public class GameManager : MonoBehaviour
     {
         if (GridCntrl.State == States.Awaite)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-                GridCntrl.DoMove(Vector2.up);
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-                GridCntrl.DoMove(Vector2.down);
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-                GridCntrl.DoMove(Vector2.left);
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-                GridCntrl.DoMove(Vector2.right);
+            var inputDirecton = inputActions.Main.Keyboard.ReadValue<Vector2>();
+            if(inputDirecton != Vector2.zero)
+                GridCntrl.DoMove(inputDirecton);
         }
     }
     public void GameOver(bool isWin)
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
     {
         GameOverPopUp.SetActive(false);
         WinPopUp.SetActive(false);
+        GridCntrl.Clear();
         GridCntrl.State = States.Awaite;
         GridCntrl.SpawnTile();
         GridCntrl.SpawnTile();

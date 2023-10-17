@@ -618,3 +618,9 @@ C:\work\2048\2048_1\obj\Debug\Assembly-CSharp-firstpass.csproj.CoreCompileInputs
 C:\work\2048\2048_1\obj\Debug\Assembly-CSharp-firstpass.csproj.CopyComplete
 C:\work\2048\2048_1\obj\Debug\Assembly-CSharp-firstpass.dll
 C:\work\2048\2048_1\obj\Debug\Assembly-CSharp-firstpass.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.InputSystem.dll
+C:\work\2048\2048_1\Temp\bin\Debug\nunit.framework.dll
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Samples.Dependency.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Samples.Runtime.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Samples.Editor.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.InputSystem.pdb
