@@ -2,7 +2,9 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public enum States
 {
@@ -10,14 +12,15 @@ public enum States
     Animation,
     Merge,
     Spawn,
-    ButtonPress
+    ButtonPress,
+    Loading
 }
 public class GridController : MonoBehaviour
 {
 
-    [SerializeField] public TileController tilePrefub;
-    [SerializeField] public GridPanelComponent[] Grid;
-    [SerializeField] public EndGameEvent onEndGame;
+    [SerializeField] TileController tilePrefub;
+    [SerializeField] GridPanelComponent[] Grid;
+    [SerializeField] EndGameEvent onEndGame;
 
     bool CanMakeMove => CheckMove();
 
@@ -29,13 +32,16 @@ public class GridController : MonoBehaviour
 
     private void Update()
     {
-        if (State == States.Spawn)
+        if (State == States.Spawn )
             SpawnTile();
     }
-
-    void Awake()
+    async void Awake()
     {
-        panelTypes = Resources.Load<PanelTypes>("PanelTypes");
+        //var handle = Addressables.LoadAssetAsync<PanelTypes>("PanelTypes");
+        panelTypes = await Addressables.LoadAssetAsync<PanelTypes>("PanelTypes").Task;
+
+        Debug.Log(panelTypes);
+        State = States.Awaite;
         for (int i = 0; i < Grid.Length; i++)
             Grid[i].cellNumber = i;
         countOfCell = Grid.Length; 

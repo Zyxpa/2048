@@ -624,3 +624,15 @@ C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Samples.Dependency.pdb
 C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Samples.Runtime.pdb
 C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Samples.Editor.pdb
 C:\work\2048\2048_1\Temp\bin\Debug\Unity.InputSystem.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.Addressables.dll
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.Addressables.Editor.dll
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.ResourceManager.dll
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.ScriptableBuildPipeline.dll
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.ScriptableBuildPipeline.Editor.dll
+C:\work\2048\2048_1\Temp\bin\Debug\UnityEditor.CacheServer.dll
+C:\work\2048\2048_1\Temp\bin\Debug\UnityEditor.CacheServer.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.ScriptableBuildPipeline.Editor.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.ResourceManager.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.Addressables.Editor.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.Addressables.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.ScriptableBuildPipeline.pdb

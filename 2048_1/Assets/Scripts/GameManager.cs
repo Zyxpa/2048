@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,11 +11,15 @@ public class GameManager : MonoBehaviour
 
     private GameInput inputActions;
 
-    void Start()
+    async void Start()
     {
         inputActions = new GameInput();
         inputActions.Enable();
 
+        GridCntrl.State = States.Loading;
+        
+        while (GridCntrl.State != States.Awaite)
+            await Task.Delay(10);
         RestartGame();
     }
 
@@ -47,8 +52,10 @@ public class GameManager : MonoBehaviour
         GameOverPopUp.SetActive(false);
         WinPopUp.SetActive(false);
         GridCntrl.Clear();
-        GridCntrl.State = States.Awaite;
-        GridCntrl.SpawnTile();
-        GridCntrl.SpawnTile();
+        if (GridCntrl.State == States.Awaite)
+        {
+            GridCntrl.SpawnTile();
+            GridCntrl.SpawnTile();
+        }
     }
 }
