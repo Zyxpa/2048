@@ -5,22 +5,17 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] public GridController GridCntrl;
-    [SerializeField] public GameObject GameOverPopUp;
-    [SerializeField] public GameObject WinPopUp;
+    [SerializeField] GridController GridCntrl;
+    [SerializeField] WindowManager GameOverPopUp;
+    [SerializeField] WindowManager WinPopUp;
 
     private GameInput inputActions;
 
-    async void Start()
+    void Start()
     {
+        GridCntrl.OnGridControllerIsAwake.AddListener(RestartGame);
         inputActions = new GameInput();
         inputActions.Enable();
-
-        GridCntrl.State = States.Loading;
-        
-        while (GridCntrl.State != States.Awaite)
-            await Task.Delay(10);
-        RestartGame();
     }
 
     void Update()
@@ -35,22 +30,18 @@ public class GameManager : MonoBehaviour
     public void GameOver(bool isWin)
     {
         if (isWin)
-        {
-            WinPopUp.SetActive(true);
-            WinPopUp.transform.DOShakeScale((float)1, (float)0.5, 5);
-        }
-        else 
-        {
-            GameOverPopUp.SetActive(true);
-            GameOverPopUp.transform.DOShakeScale((float)1, (float)0.5, 5); 
-        }
+
+            WinPopUp.Show();
+        else
+            GameOverPopUp.Show();
+       
     }
 
     [ContextMenu("Restart Game")]
     public void RestartGame()
     {
-        GameOverPopUp.SetActive(false);
-        WinPopUp.SetActive(false);
+        GameOverPopUp.Hide();
+        WinPopUp.Hide();
         GridCntrl.Clear();
         if (GridCntrl.State == States.Awaite)
         {

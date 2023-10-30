@@ -30,6 +30,8 @@ public class GridController : MonoBehaviour
     PanelTypes panelTypes;
     public States State;
 
+    public UnityEvent OnGridControllerIsAwake;
+
     private void Update()
     {
         if (State == States.Spawn )
@@ -37,7 +39,6 @@ public class GridController : MonoBehaviour
     }
     async void Awake()
     {
-        //var handle = Addressables.LoadAssetAsync<PanelTypes>("PanelTypes");
         panelTypes = await Addressables.LoadAssetAsync<PanelTypes>("PanelTypes").Task;
 
         Debug.Log(panelTypes);
@@ -48,6 +49,8 @@ public class GridController : MonoBehaviour
         gridDimension = ((int)Math.Sqrt(countOfCell));
         winNumber = panelTypes.MaxValue();
         countOfEmptyCell = countOfCell;
+
+        OnGridControllerIsAwake?.Invoke();
     }
     [ContextMenu("CheckMove")]
     private bool CheckMove()
@@ -63,26 +66,15 @@ public class GridController : MonoBehaviour
         return false;
     }
 
-    private bool CanMergeRight(int pos)
-    {
-        if (pos + 1 < countOfCell && (pos + 1) % gridDimension != 0 && !Grid[pos + 1].IsEmpty && Grid[pos].curentTile.CurentNumber == Grid[pos + 1].curentTile.CurentNumber) return true;
-        return false;
-    }
-    private bool CanMergeLeft(int pos)
-    {
-        if (pos - 1 >= 0 && pos % gridDimension != 0 && Grid[pos].curentTile.CurentNumber == Grid[pos - 1].curentTile.CurentNumber) return true;
-        return false;
-    }
-    private bool CanMergeUp(int pos)
-    {
-        if(pos - gridDimension >= 0 && Grid[pos].curentTile.CurentNumber == Grid[pos - gridDimension].curentTile.CurentNumber) return true;
-        return false;
-    }
-    private bool CanMergeDown(int pos)
-    {
-        if (pos + gridDimension < countOfCell && !Grid[pos + gridDimension].IsEmpty && Grid[pos].curentTile.CurentNumber == Grid[pos + gridDimension].curentTile.CurentNumber) return true;
-        return false;
-    }
+    private bool CanMergeRight(int pos) =>
+        pos + 1 < countOfCell && (pos + 1) % gridDimension != 0 && !Grid[pos + 1].IsEmpty && Grid[pos].curentTile.CurentNumber == Grid[pos + 1].curentTile.CurentNumber;
+
+    private bool CanMergeLeft(int pos) =>
+        pos - 1 >= 0 && pos % gridDimension != 0 && Grid[pos].curentTile.CurentNumber == Grid[pos - 1].curentTile.CurentNumber;
+    private bool CanMergeUp(int pos) =>
+        pos - gridDimension >= 0 && Grid[pos].curentTile.CurentNumber == Grid[pos - gridDimension].curentTile.CurentNumber;
+    private bool CanMergeDown(int pos) =>
+        pos + gridDimension < countOfCell && !Grid[pos + gridDimension].IsEmpty && Grid[pos].curentTile.CurentNumber == Grid[pos + gridDimension].curentTile.CurentNumber;
     private void MoveAnimation(GameObject currentCell, GameObject targetCell, bool isMerge)
     {
         State = States.Animation;

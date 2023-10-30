@@ -1282,8 +1282,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridCntrl: {fileID: 2077785139}
-  GameOverPopUp: {fileID: 1387679388}
-  WinPopUp: {fileID: 1195561345}
+  GameOverPopUp: {fileID: 1387679392}
+  WinPopUp: {fileID: 1195561349}
 --- !u!1 &925289623
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,6 +2047,7 @@ GameObject:
   - component: {fileID: 1195561346}
   - component: {fileID: 1195561348}
   - component: {fileID: 1195561347}
+  - component: {fileID: 1195561349}
   m_Layer: 5
   m_Name: WinPopUp
   m_TagString: Untagged
@@ -2112,6 +2113,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195561345}
   m_CullTransparentMesh: 0
+--- !u!114 &1195561349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195561345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deafa94399787644693af6b31347c3df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1222167918
 GameObject:
   m_ObjectHideFlags: 0
@@ -2301,6 +2314,7 @@ GameObject:
   - component: {fileID: 1387679391}
   - component: {fileID: 1387679390}
   - component: {fileID: 1387679389}
+  - component: {fileID: 1387679392}
   m_Layer: 5
   m_Name: GameOverPopUp
   m_TagString: Untagged
@@ -2366,6 +2380,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 650, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1387679392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387679388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deafa94399787644693af6b31347c3df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1436896879
 GameObject:
   m_ObjectHideFlags: 0
@@ -3123,7 +3149,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3, y: -100}
+  m_AnchoredPosition: {x: 0, y: -100}
   m_SizeDelta: {x: 620, y: 620}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2077785139
@@ -3172,3 +3198,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   State: 0
+  OnGridControllerIsAwake:
+    m_PersistentCalls:
+      m_Calls: []
