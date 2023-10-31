@@ -8,7 +8,6 @@ public class PanelTypes : ScriptableObject
 
     public PanelType GetPanel(int index)
     {
-        Debug.Log(index);
         return panelTypes[index];
     }
 

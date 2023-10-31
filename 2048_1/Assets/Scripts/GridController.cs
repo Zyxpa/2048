@@ -10,10 +10,7 @@ public enum States
 {
     Awaite,
     Animation,
-    Merge,
-    Spawn,
-    ButtonPress,
-    Loading
+    Spawn
 }
 public class GridController : MonoBehaviour
 {
@@ -41,7 +38,7 @@ public class GridController : MonoBehaviour
     {
         panelTypes = await Addressables.LoadAssetAsync<PanelTypes>("PanelTypes").Task;
 
-        Debug.Log(panelTypes);
+        //Debug.Log(panelTypes);
         State = States.Awaite;
         for (int i = 0; i < Grid.Length; i++)
             Grid[i].cellNumber = i;
@@ -56,19 +53,12 @@ public class GridController : MonoBehaviour
     private bool CheckMove()
     {
         for (int i = 0; i < countOfCell; i++)
-        {
-            if (Grid[i].IsEmpty) return true;
-            if (CanMergeRight(i)) return true;
-            if (CanMergeLeft(i)) return true;
-            if (CanMergeUp(i)) return true;
-            if (CanMergeDown(i)) return true;
-        }
+            if (Grid[i].IsEmpty || CanMergeRight(i) || CanMergeLeft(i) || CanMergeUp(i) || CanMergeDown(i)) return true;
         return false;
     }
 
     private bool CanMergeRight(int pos) =>
         pos + 1 < countOfCell && (pos + 1) % gridDimension != 0 && !Grid[pos + 1].IsEmpty && Grid[pos].curentTile.CurentNumber == Grid[pos + 1].curentTile.CurentNumber;
-
     private bool CanMergeLeft(int pos) =>
         pos - 1 >= 0 && pos % gridDimension != 0 && Grid[pos].curentTile.CurentNumber == Grid[pos - 1].curentTile.CurentNumber;
     private bool CanMergeUp(int pos) =>
@@ -123,7 +113,8 @@ public class GridController : MonoBehaviour
         }
         if (internalStep == 0)
             return;
-            
+
+        //Debug.Log(direction);
         for (int i = 0; i < gridDimension; i++, startPosition += externalStep)
         {
             int lastEmptyCell = -1;
@@ -153,9 +144,6 @@ public class GridController : MonoBehaviour
                 
             }
         }
-
-        if (State == States.ButtonPress)
-            State = States.Awaite;
 
     }
     public void SpawnTile()
@@ -192,7 +180,7 @@ public class GridController : MonoBehaviour
         Grid[cellNumber].curentTile.Type = panelTypes.GetPanel(tileValueNumber);
         countOfEmptyCell--;
         State = States.Awaite;
-        Debug.Log(countOfEmptyCell.ToString() + " " + CanMakeMove.ToString());
+        //Debug.Log(countOfEmptyCell.ToString() + " " + CanMakeMove.ToString());
         if (countOfEmptyCell <= 0 && !CanMakeMove)
             onEndGame.Invoke(false);
     }
@@ -201,7 +189,7 @@ public class GridController : MonoBehaviour
     {
         Grid.Where(x => !x.IsEmpty).ToList().ForEach(x => { Destroy(x.curentTile.gameObject); x.curentTile = null; });
         countOfEmptyCell = countOfCell;
-        Debug.Log("After Clear " + Grid.Where(x => !x.IsEmpty).ToList().Count.ToString());
+        //Debug.Log("After Clear " + Grid.Where(x => !x.IsEmpty).ToList().Count.ToString());
     }
 
     [Serializable]
