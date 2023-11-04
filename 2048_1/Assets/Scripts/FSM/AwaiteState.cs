@@ -3,12 +3,19 @@
 public class AwaiteState : BaseState
 { 
     InputController inputController;
-    GridController GridCntrl;
-    public AwaiteState(FSM fsm, GridController gridController) : base(fsm)
+    public AwaiteState(FSM fsm) : base(fsm)
     {
         inputController = new InputController();
+    }
+
+    public override void Enter()
+    {
         inputController.InputEvent.AddListener(InputHandler);
-        GridCntrl = gridController;
+    }
+
+    public override void Exit()
+    {
+        inputController.InputEvent.RemoveListener(InputHandler);
     }
 
     override public void Update()
@@ -19,6 +26,6 @@ public class AwaiteState : BaseState
     void InputHandler(Vector2 inputDirecton)
     {
         Debug.Log("Было нажатие");
-        GridCntrl.DoMove(inputDirecton);
+        fsm.SetState<AnimationState>(inputDirecton);
     }
 }

@@ -31,4 +31,16 @@ public class FSM : MonoBehaviour
         curentState.Enter();
     }
 
+    public void SetState<T>(object param) where T : BaseState
+    {
+        if (curentState?.GetType() == typeof(T))
+            return;
+
+        if (!states.TryGetValue(typeof(T), out var newState))
+            return;
+
+        curentState?.Exit();
+        curentState = newState;
+        curentState.Enter(param);
+    }
 }

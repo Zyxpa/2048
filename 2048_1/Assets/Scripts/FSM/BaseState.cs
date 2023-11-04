@@ -1,12 +1,13 @@
 ﻿public abstract class BaseState
 {
-    private FSM _fsm;
+    protected private FSM fsm;
     protected BaseState(FSM fsm)
     {
-        _fsm = fsm;
+        this.fsm = fsm;
     }
 
     virtual public void Enter() { }
+    virtual public void Enter(object param) { }
     virtual public void Exit() { }
     virtual public void Update() { }
 

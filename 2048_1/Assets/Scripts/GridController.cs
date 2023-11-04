@@ -65,17 +65,15 @@ public class GridController : MonoBehaviour
         pos - gridDimension >= 0 && Grid[pos].curentTile.CurentNumber == Grid[pos - gridDimension].curentTile.CurentNumber;
     private bool CanMergeDown(int pos) =>
         pos + gridDimension < countOfCell && !Grid[pos + gridDimension].IsEmpty && Grid[pos].curentTile.CurentNumber == Grid[pos + gridDimension].curentTile.CurentNumber;
-    private void MoveAnimation(GameObject currentCell, GameObject targetCell, bool isMerge)
+    private void MoveAnimation(GameObject currentCell, GameObject targetCell, bool isMerge, UnityEvent animationEnd)
     {
-        State = States.Animation;
         currentCell.transform.DOMove(targetCell.transform.position, (float)0.1).OnComplete(
             () => 
             {
-                State = State = States.Spawn;
                 if (isMerge)
                     DestroyCell(currentCell); 
+                animationEnd.Invoke();
             });
-        
     }
 
     private void DestroyCell(GameObject objectToDestroy)
@@ -84,9 +82,9 @@ public class GridController : MonoBehaviour
         Destroy(objectToDestroy);
     }
 
-    public void DoMove(Vector2 direction)
+    internal void DoMove(Vector2 direction, AnimationState.EndMovingEvent endMovingHandler, UnityEvent animationEnd)
     {
-        int startPosition = 0, internalStep = 0, externalStep = 0;
+        int startPosition = 0, internalStep = 0, externalStep = 0, countOfAnimation = 0;
         if (direction == Vector2.up)
         {
             startPosition = 0;
@@ -128,7 +126,8 @@ public class GridController : MonoBehaviour
                 if (lastFilledCell > -1 && Grid[lastFilledCell].curentTile.CurentNumber == Grid[position].curentTile.CurentNumber)
                 {
                     //слияние 
-                    MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastFilledCell].gameObject, true);
+                    MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastFilledCell].gameObject, true, animationEnd);
+                    countOfAnimation++;
                     Grid[lastFilledCell].curentTile.Type = panelTypes.GetPanel(Grid[lastFilledCell].curentTile.Type.Index + 1);
                     if (Grid[lastFilledCell].curentTile.Type.Value == winNumber) 
                         onEndGame?.Invoke(true);
@@ -137,14 +136,15 @@ public class GridController : MonoBehaviour
                 }
                 lastFilledCell = lastEmptyCell < 0 ? position : lastEmptyCell;
                 if (lastEmptyCell < 0) continue;
-                MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastEmptyCell].gameObject, false);
+                MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastEmptyCell].gameObject, false, animationEnd);
+                countOfAnimation++;
                 Grid[lastEmptyCell].curentTile = Grid[position].curentTile;
                 Grid[position].curentTile = null;
                 lastEmptyCell += internalStep;
                 
             }
         }
-
+        endMovingHandler.Invoke(countOfAnimation);
     }
     public void SpawnTile()
     {
@@ -191,7 +191,6 @@ public class GridController : MonoBehaviour
         countOfEmptyCell = countOfCell;
         //Debug.Log("After Clear " + Grid.Where(x => !x.IsEmpty).ToList().Count.ToString());
     }
-
     [Serializable]
     public class EndGameEvent : UnityEvent<bool> { }
 }
