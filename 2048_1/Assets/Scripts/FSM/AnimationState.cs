@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 using UnityEngine.Events;
 public class AnimationState : BaseState
 {
@@ -11,31 +12,49 @@ public class AnimationState : BaseState
     public AnimationState(FSM fsm, GridController gridController) : base(fsm)
     {
         GridCntrl = gridController;
-        AnimationEnd.AddListener(AnimationEndHandler);
     }
 
     public override void Enter(object param)
     {
+        countOfEndedAnimation = 0;
+        countOfStartedAnimation = 0;
+        AnimationEnd.AddListener(AnimationEndHandler);
+        endMovingEvent.AddListener(EndMovingHandler);
         Vector2 direction = (Vector2)param;
         GridCntrl.DoMove(direction, this.endMovingEvent, AnimationEnd);
-        countOfStartedAnimation = 0;
     }
 
     public override void Exit()
     {
-        base.Exit();
+
+        AnimationEnd.RemoveAllListeners();
+        endMovingEvent.RemoveAllListeners();
     }
 
     public override void Update()
     {
-        Debug.Log(countOfEndedAnimation);
     }
-
+    private void EndMovingHandler(int _countOfStartedAnimation)
+    {
+        countOfStartedAnimation = _countOfStartedAnimation;
+        //Trace.WriteLine("EndMovingHandler " + countOfStartedAnimation);
+        if (_countOfStartedAnimation == 0)
+        {
+            fsm.SetState<AwaiteState>();
+            return;
+        }
+        if (countOfEndedAnimation == countOfStartedAnimation)
+            fsm.SetState<SpawnState>(1);
+        
+            
+    }
+    
     private void AnimationEndHandler()
     {
         countOfEndedAnimation++;
-        if(countOfStartedAnimation == countOfStartedAnimation)
-            Debug.Log("Cvtyf ");
+        //Trace.WriteLine("AnimationEndHandler " + countOfEndedAnimation + " " + countOfStartedAnimation);
+        if (countOfEndedAnimation == countOfStartedAnimation)
+            fsm.SetState<SpawnState>(1);
     }
     public class EndMovingEvent : UnityEvent<int>
     {

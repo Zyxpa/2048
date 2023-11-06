@@ -35,10 +35,6 @@ public class GameManager : MonoBehaviour
         GameOverPopUp.Hide();
         WinPopUp.Hide();
         GridCntrl.Clear();
-        if (GridCntrl.State == States.Awaite)
-        {
-            GridCntrl.SpawnTile();
-            GridCntrl.SpawnTile();
-        }
+        fsm.SetState<SpawnState>(2);
     }
 }

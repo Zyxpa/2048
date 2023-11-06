@@ -10,6 +10,7 @@ public class FSM : MonoBehaviour
     
     void Update()
     {
+        //Debug.Log(curentState);
         curentState?.Update();
     }
 
