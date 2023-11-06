@@ -1,7 +1,4 @@
-﻿using DG.Tweening;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,24 +6,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] WindowManager GameOverPopUp;
     [SerializeField] WindowManager WinPopUp;
 
-    private GameInput inputActions;
-
+    FSM fsm;
     void Start()
     {
         GridCntrl.OnGridControllerIsAwake.AddListener(RestartGame);
-        inputActions = new GameInput();
-        inputActions.Enable();
+        fsm = this.gameObject.AddComponent<FSM>();
+
+        fsm.AddState(new AwaiteState(fsm));
+        fsm.AddState(new SpawnState(fsm, GridCntrl));
+        fsm.AddState(new AnimationState(fsm, GridCntrl));
+        
+        fsm.SetState<AwaiteState>();
     }
 
-    void Update()
-    {
-        if (GridCntrl.State == States.Awaite)
-        {
-            var inputDirecton = inputActions.Main.Keyboard.ReadValue<Vector2>();
-            if(inputDirecton != Vector2.zero)
-                GridCntrl.DoMove(inputDirecton);
-        }
-    }
     public void GameOver(bool isWin)
     {
         if (isWin)
@@ -43,10 +35,6 @@ public class GameManager : MonoBehaviour
         GameOverPopUp.Hide();
         WinPopUp.Hide();
         GridCntrl.Clear();
-        if (GridCntrl.State == States.Awaite)
-        {
-            GridCntrl.SpawnTile();
-            GridCntrl.SpawnTile();
-        }
+        fsm.SetState<SpawnState>(2);
     }
 }

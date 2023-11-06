@@ -6,15 +6,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public enum States
-{
-    Awaite,
-    Animation,
-    Merge,
-    Spawn,
-    ButtonPress,
-    Loading
-}
 public class GridController : MonoBehaviour
 {
 
@@ -22,29 +13,18 @@ public class GridController : MonoBehaviour
     [SerializeField] GridPanelComponent[] Grid;
     [SerializeField] EndGameEvent onEndGame;
 
-    bool CanMakeMove => CheckMove();
-
-    int countOfEmptyCell, gridDimension, countOfCell;
-    int winNumber;
     const float probabilityOfZeroElement = 0.8f;
+    int countOfEmptyCell, gridDimension, countOfCell, winNumber;
     PanelTypes panelTypes;
-    public States State;
 
     public UnityEvent OnGridControllerIsAwake;
-
-    private void Update()
-    {
-        if (State == States.Spawn )
-            SpawnTile();
-    }
+    bool CanMakeMove => CheckMove();
     async void Awake()
     {
         panelTypes = await Addressables.LoadAssetAsync<PanelTypes>("PanelTypes").Task;
 
-        Debug.Log(panelTypes);
-        State = States.Awaite;
-        for (int i = 0; i < Grid.Length; i++)
-            Grid[i].cellNumber = i;
+        //for (int i = 0; i < Grid.Length; i++)
+        //    Grid[i].cellNumber = i;
         countOfCell = Grid.Length; 
         gridDimension = ((int)Math.Sqrt(countOfCell));
         winNumber = panelTypes.MaxValue();
@@ -56,36 +36,27 @@ public class GridController : MonoBehaviour
     private bool CheckMove()
     {
         for (int i = 0; i < countOfCell; i++)
-        {
-            if (Grid[i].IsEmpty) return true;
-            if (CanMergeRight(i)) return true;
-            if (CanMergeLeft(i)) return true;
-            if (CanMergeUp(i)) return true;
-            if (CanMergeDown(i)) return true;
-        }
+            if (Grid[i].IsEmpty || CanMergeRight(i) || CanMergeLeft(i) || CanMergeUp(i) || CanMergeDown(i)) return true;
         return false;
     }
 
     private bool CanMergeRight(int pos) =>
         pos + 1 < countOfCell && (pos + 1) % gridDimension != 0 && !Grid[pos + 1].IsEmpty && Grid[pos].curentTile.CurentNumber == Grid[pos + 1].curentTile.CurentNumber;
-
     private bool CanMergeLeft(int pos) =>
         pos - 1 >= 0 && pos % gridDimension != 0 && Grid[pos].curentTile.CurentNumber == Grid[pos - 1].curentTile.CurentNumber;
     private bool CanMergeUp(int pos) =>
         pos - gridDimension >= 0 && Grid[pos].curentTile.CurentNumber == Grid[pos - gridDimension].curentTile.CurentNumber;
     private bool CanMergeDown(int pos) =>
         pos + gridDimension < countOfCell && !Grid[pos + gridDimension].IsEmpty && Grid[pos].curentTile.CurentNumber == Grid[pos + gridDimension].curentTile.CurentNumber;
-    private void MoveAnimation(GameObject currentCell, GameObject targetCell, bool isMerge)
+    private void MoveAnimation(GameObject currentCell, GameObject targetCell, bool isMerge, UnityEvent animationEnd)
     {
-        State = States.Animation;
-        currentCell.transform.DOMove(targetCell.transform.position, (float)0.1).OnComplete(
+        currentCell.transform.DOMove(targetCell.transform.position, 0.15f).OnComplete(
             () => 
             {
-                State = State = States.Spawn;
                 if (isMerge)
                     DestroyCell(currentCell); 
+                animationEnd.Invoke();
             });
-        
     }
 
     private void DestroyCell(GameObject objectToDestroy)
@@ -94,9 +65,9 @@ public class GridController : MonoBehaviour
         Destroy(objectToDestroy);
     }
 
-    public void DoMove(Vector2 direction)
+    internal void DoMove(Vector2 direction, AnimationState.EndMovingEvent endMovingHandler, UnityEvent animationEnd)
     {
-        int startPosition = 0, internalStep = 0, externalStep = 0;
+        int startPosition = 0, internalStep = 0, externalStep = 0, countOfAnimation = 0;
         if (direction == Vector2.up)
         {
             startPosition = 0;
@@ -122,8 +93,13 @@ public class GridController : MonoBehaviour
             externalStep = -gridDimension;
         }
         if (internalStep == 0)
+        {
+            endMovingHandler.Invoke(countOfAnimation);
             return;
+        }
             
+
+        //Debug.Log(direction);
         for (int i = 0; i < gridDimension; i++, startPosition += externalStep)
         {
             int lastEmptyCell = -1;
@@ -137,7 +113,8 @@ public class GridController : MonoBehaviour
                 if (lastFilledCell > -1 && Grid[lastFilledCell].curentTile.CurentNumber == Grid[position].curentTile.CurentNumber)
                 {
                     //слияние 
-                    MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastFilledCell].gameObject, true);
+                    MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastFilledCell].gameObject, true, animationEnd);
+                    countOfAnimation++;
                     Grid[lastFilledCell].curentTile.Type = panelTypes.GetPanel(Grid[lastFilledCell].curentTile.Type.Index + 1);
                     if (Grid[lastFilledCell].curentTile.Type.Value == winNumber) 
                         onEndGame?.Invoke(true);
@@ -146,17 +123,15 @@ public class GridController : MonoBehaviour
                 }
                 lastFilledCell = lastEmptyCell < 0 ? position : lastEmptyCell;
                 if (lastEmptyCell < 0) continue;
-                MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastEmptyCell].gameObject, false);
+                MoveAnimation(Grid[position].curentTile.gameObject, Grid[lastEmptyCell].gameObject, false, animationEnd);
+                countOfAnimation++;
                 Grid[lastEmptyCell].curentTile = Grid[position].curentTile;
                 Grid[position].curentTile = null;
                 lastEmptyCell += internalStep;
                 
             }
         }
-
-        if (State == States.ButtonPress)
-            State = States.Awaite;
-
+        endMovingHandler.Invoke(countOfAnimation);
     }
     public void SpawnTile()
     {
@@ -172,7 +147,7 @@ public class GridController : MonoBehaviour
                 break;
             }
         }
-        
+
         Grid[cellNumber].curentTile = Instantiate(tilePrefub, Grid[cellNumber].transform.position, Quaternion.identity, this.transform);
         
         if (UnityEngine.Random.value < probabilityOfZeroElement)
@@ -181,18 +156,16 @@ public class GridController : MonoBehaviour
             Grid[cellNumber].curentTile.Type = panelTypes.GetPanel(1);
 
         countOfEmptyCell--;
-        State = States.Awaite;
 
         if (countOfEmptyCell <= 0 && !CanMakeMove)
             onEndGame.Invoke(false);
+
     }
     public void SpawnTile(int cellNumber, int tileValueNumber = 0)
     {
         Grid[cellNumber].curentTile = Instantiate(tilePrefub, Grid[cellNumber].transform.position, Quaternion.identity, this.transform);
         Grid[cellNumber].curentTile.Type = panelTypes.GetPanel(tileValueNumber);
         countOfEmptyCell--;
-        State = States.Awaite;
-        Debug.Log(countOfEmptyCell.ToString() + " " + CanMakeMove.ToString());
         if (countOfEmptyCell <= 0 && !CanMakeMove)
             onEndGame.Invoke(false);
     }
@@ -201,9 +174,7 @@ public class GridController : MonoBehaviour
     {
         Grid.Where(x => !x.IsEmpty).ToList().ForEach(x => { Destroy(x.curentTile.gameObject); x.curentTile = null; });
         countOfEmptyCell = countOfCell;
-        Debug.Log("After Clear " + Grid.Where(x => !x.IsEmpty).ToList().Count.ToString());
     }
-
     [Serializable]
     public class EndGameEvent : UnityEvent<bool> { }
 }

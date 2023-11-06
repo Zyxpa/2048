@@ -8,7 +8,7 @@ public class WindowManager : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
-        this.gameObject.transform.DOShakeScale((float)1, (float)0.5, 5);
+        this.gameObject.transform.DOShakeScale(1f, 0.5f, 5);
     }
 
     public void Hide()
