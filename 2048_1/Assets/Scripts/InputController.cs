@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 public class InputController : MonoBehaviour
 {
     [SerializeField] double MaxTime;
-    public SwipeAction swipeAction;
+    [SerializeField] double MinDistance;
+    public SwipeAction swipeAction = new SwipeAction();
     
     GameInput inputActions;
 
@@ -24,15 +25,19 @@ public class InputController : MonoBehaviour
 
     private void StarContact(InputAction.CallbackContext ctx)
     {
-        startPosition = inputActions.Main.PrimaryPosition.ReadValue<Vector2>();
         startTime = ctx.time;
+        startPosition = GetPointOnWorld(Camera.main);
+        //Debug.Log(startPosition);
     }
     private void EndContact(InputAction.CallbackContext ctx)
     {
-        if (ctx.time - startTime > MaxTime)
+        Vector2 swipe = GetPointOnWorld(Camera.main) - startPosition;
+        if (ctx.time - startTime > MaxTime || swipe.magnitude < MinDistance)
             return;
-        Vector2 swipe = inputActions.Main.PrimaryPosition.ReadValue<Vector2>() - startPosition;
-
+        
+        swipe = swipe.normalized;
+        
+        //переписать на MaxBy
         if (Vector2.Dot(swipe, Vector2.up) > Vector2.Dot(swipe, Vector2.down) && Vector2.Dot(swipe, Vector2.up) > Vector2.Dot(swipe, Vector2.right) && Vector2.Dot(swipe, Vector2.up) > Vector2.Dot(swipe, Vector2.left))
             swipeAction.Invoke(Vector2.up);
         if (Vector2.Dot(swipe, Vector2.down) > Vector2.Dot(swipe, Vector2.right) && Vector2.Dot(swipe, Vector2.down) > Vector2.Dot(swipe, Vector2.left))
@@ -41,6 +46,14 @@ public class InputController : MonoBehaviour
             swipeAction.Invoke(Vector2.right);
         swipeAction.Invoke(Vector2.left);
     }
+
+    private Vector2 GetPointOnWorld(Camera camera)
+    {
+        var val = (Vector3)inputActions.Main.PrimaryPosition.ReadValue<Vector2>();
+        val.z = camera.nearClipPlane;
+        return (Vector2)camera.ScreenToWorldPoint(val);
+    }
+
     void OnEnable()
     {
         inputActions.Enable();

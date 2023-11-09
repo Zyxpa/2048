@@ -8,11 +8,11 @@ public class FSM : MonoBehaviour
     Dictionary<Type, BaseState> states = new Dictionary<Type, BaseState>();
     BaseState curentState;
     
-    void Update()
-    {
-        //Debug.Log(curentState);
-        curentState?.Update();
-    }
+    //void Update()
+    //{
+    //    //Debug.Log(curentState);
+    //    curentState?.Update();
+    //}
 
     public void AddState<T>( T newState) where T : BaseState
     {

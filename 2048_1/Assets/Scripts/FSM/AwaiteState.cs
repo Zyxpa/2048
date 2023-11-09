@@ -3,29 +3,23 @@
 public class AwaiteState : BaseState
 { 
     InputController inputController;
-    public AwaiteState(FSM fsm) : base(fsm)
+    public AwaiteState(FSM fsm, InputController _inputController) : base(fsm)
     {
-        inputController = new InputController();
+        inputController = _inputController;
     }
 
     public override void Enter()
     {
-        inputController.InputEvent.AddListener(InputHandler);
+        inputController.swipeAction.AddListener(InputHandler);
     }
 
     public override void Exit()
     {
-        inputController.InputEvent.RemoveListener(InputHandler);
-    }
-
-    override public void Update()
-    {
-        inputController.Update();
+        inputController.swipeAction.RemoveListener(InputHandler);
     }
 
     void InputHandler(Vector2 inputDirecton)
     {
-        Debug.Log("Было нажатие");
         fsm.SetState<AnimationState>(inputDirecton);
     }
 }

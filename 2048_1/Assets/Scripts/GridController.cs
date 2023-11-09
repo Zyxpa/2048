@@ -23,8 +23,6 @@ public class GridController : MonoBehaviour
     {
         panelTypes = await Addressables.LoadAssetAsync<PanelTypes>("PanelTypes").Task;
 
-        //for (int i = 0; i < Grid.Length; i++)
-        //    Grid[i].cellNumber = i;
         countOfCell = Grid.Length; 
         gridDimension = ((int)Math.Sqrt(countOfCell));
         winNumber = panelTypes.MaxValue();

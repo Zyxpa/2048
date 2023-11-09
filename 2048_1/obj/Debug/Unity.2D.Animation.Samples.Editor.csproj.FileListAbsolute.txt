@@ -207,7 +207,6 @@ C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Triangle.Runtime.dll
 C:\work\2048\2048_1\Temp\bin\Debug\Unity.InternalAPIEngineBridge.001.dll
 C:\work\2048\2048_1\Temp\bin\Debug\Unity.Mathematics.dll
 C:\work\2048\2048_1\Temp\bin\Debug\Unity.CecilTools.dll
-C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Samples.Runtime.pdb
 C:\work\2048\2048_1\Temp\bin\Debug\UnityEngine.xml
 C:\work\2048\2048_1\Temp\bin\Debug\UnityEditor.xml
 C:\work\2048\2048_1\Temp\bin\Debug\UnityEngine.AIModule.xml
@@ -575,3 +574,4 @@ D:\work\2048\2048_1\obj\Debug\Unity.2D.Animation.Samples.Editor.csproj.CoreCompi
 D:\work\2048\2048_1\obj\Debug\Unity.2D.Animation.Samples.Editor.csproj.CopyComplete
 D:\work\2048\2048_1\obj\Debug\Unity.2D.Animation.Samples.Editor.dll
 D:\work\2048\2048_1\obj\Debug\Unity.2D.Animation.Samples.Editor.pdb
+C:\work\2048\2048_1\Temp\bin\Debug\Unity.2D.Animation.Samples.Runtime.pdb

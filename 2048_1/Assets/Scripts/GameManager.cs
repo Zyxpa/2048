@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
         GridCntrl.OnGridControllerIsAwake.AddListener(RestartGame);
         fsm = this.gameObject.AddComponent<FSM>();
 
-        fsm.AddState(new AwaiteState(fsm));
+        fsm.AddState(new AwaiteState(fsm, this.gameObject.GetComponent<InputController>()));
         fsm.AddState(new SpawnState(fsm, GridCntrl));
         fsm.AddState(new AnimationState(fsm, GridCntrl));
         

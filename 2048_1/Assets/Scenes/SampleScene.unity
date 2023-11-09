@@ -209,7 +209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!1 &37401752
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +523,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &177257413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,7 +615,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018,
     type: 3}
   m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
+  m_PointerBehavior: 2
 --- !u!114 &218190493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1017,7 +1015,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &591105803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1106,7 +1103,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &599915142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1195,7 +1191,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &743469530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1297,7 +1292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4be653250878df4d95e2d089d4124e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxTime: 0
+  MaxTime: 10
+  MinDistance: 1
 --- !u!1 &925289623
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,7 +1345,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &925289626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1568,7 +1563,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &1011929882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1657,7 +1651,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &1082565853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,7 +1739,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &1088377138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2190,7 +2182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &1222167921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2279,7 +2270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &1318597001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2457,7 +2447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &1436896882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2546,7 +2535,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &1603774835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2765,7 +2753,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &1620083427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2987,7 +2974,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &2015334652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3076,7 +3062,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curentTile: {fileID: 0}
-  cellNumber: 0
 --- !u!114 &2056911551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3211,7 +3196,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  State: 0
   OnGridControllerIsAwake:
     m_PersistentCalls:
       m_Calls: []
