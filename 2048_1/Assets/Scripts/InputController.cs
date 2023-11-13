@@ -29,6 +29,8 @@ public class InputController : MonoBehaviour
         startPosition = GetPointOnWorld(Camera.main);
         //Debug.Log(startPosition);
     }
+
+    Vector2[] directions = { Vector2.down, Vector2.up, Vector2.right, Vector2.left };
     private void EndContact(InputAction.CallbackContext ctx)
     {
         Vector2 swipe = GetPointOnWorld(Camera.main) - startPosition;
@@ -36,15 +38,8 @@ public class InputController : MonoBehaviour
             return;
         
         swipe = swipe.normalized;
-        
-        //переписать на MaxBy
-        if (Vector2.Dot(swipe, Vector2.up) > Vector2.Dot(swipe, Vector2.down) && Vector2.Dot(swipe, Vector2.up) > Vector2.Dot(swipe, Vector2.right) && Vector2.Dot(swipe, Vector2.up) > Vector2.Dot(swipe, Vector2.left))
-            swipeAction.Invoke(Vector2.up);
-        if (Vector2.Dot(swipe, Vector2.down) > Vector2.Dot(swipe, Vector2.right) && Vector2.Dot(swipe, Vector2.down) > Vector2.Dot(swipe, Vector2.left))
-            swipeAction.Invoke(Vector2.down);
-        if (Vector2.Dot(swipe, Vector2.right)  > Vector2.Dot(swipe, Vector2.left))
-            swipeAction.Invoke(Vector2.right);
-        swipeAction.Invoke(Vector2.left);
+        swipeAction.Invoke(directions.MaxBy(x => Vector2.Dot(swipe, x)));
+
     }
 
     private Vector2 GetPointOnWorld(Camera camera)
