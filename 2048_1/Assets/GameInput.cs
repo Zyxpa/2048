@@ -20,7 +20,7 @@ public class @GameInput : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""PrimaryContact"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""446b8348-699c-4224-bc39-bc83af5ca999"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -39,7 +39,7 @@ public class @GameInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""831b37d2-e940-4b4a-a8a5-03fcb210a7db"",
-                    ""path"": ""<Touchscreen>/touch0/press"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
