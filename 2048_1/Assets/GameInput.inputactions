@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "PrimaryContact",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "446b8348-699c-4224-bc39-bc83af5ca999",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -26,7 +26,7 @@
                 {
                     "name": "",
                     "id": "831b37d2-e940-4b4a-a8a5-03fcb210a7db",
-                    "path": "<Touchscreen>/primaryTouch/press",
+                    "path": "<Touchscreen>/touch0/press",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
